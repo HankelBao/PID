@@ -32,11 +32,9 @@ class PIDProcessor(object):
         """
         error_value = self.target_value - input_value
         self.prev_points.append(input_value)
-        if len(self.prev_points) > 5:
-            sample_length = 5
-            prev_value = self.prev_points[4]
-        else:
-            sample_length = len(self.prev_points)
-            prev_value = self.prev_points[len(self.prev_points) - 1]
+        sample_length = 5 if len(
+            self.prev_points) > 5 else len(self.prev_points)
+        prev_value = self.prev_points[4] if len(
+            self.prev_points) > 5 else self.prev_points[len(self.prev_points) - 1]
         error_dt = (error_value - prev_value) / (sample_length * 1.0)
         return error_value * self.k_p + error_dt * self.k_d
